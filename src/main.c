@@ -9,6 +9,7 @@
 #include "thread_prio.h"
 #include "msgbus/msgbus.h"
 #include "ts/type_print.h"
+#include "types/dummy.h"
 
 msgbus_t bus;
 
@@ -171,7 +172,15 @@ int main(void)
     usbStart(serusbcfg.usbp, &usbcfg);
     usbConnectBus(serusbcfg.usbp);
 
+    msgbus_topic_t dummy_topic;
+    dummy_t dummy_topic_buf;
+    msgbus_topic_create(&dummy_topic, &bus, &dummy_type, &dummy_topic_buf, "/dummy");
+
+    dummy_t dummy = {"hello world", 0};
     while (true) {
+        msgbus_topic_publish(&dummy_topic, &dummy);
+        dummy.count += 1;
+
         chprintf(TELEM1, "hello world\n");
         chprintf((BaseSequentialStream *)&SD7, "hello world\n");
         shell_spawn((BaseSequentialStream *)&SDU1);

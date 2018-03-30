@@ -115,6 +115,12 @@ CSRC = $(ALLCSRC) \
        $(TESTSRC) \
        src/usbcfg.c src/board.c src/main.c
 
+CSRC += lib/mcucom/msgbus/msgbus.c
+CSRC += lib/mcucom/port/ChibiOS/mcucom_port_sync.c
+# CSRC += lib/mcucom/ts/serialization_msgpack.c
+CSRC += lib/mcucom/ts/type_print.c
+CSRC += lib/mcucom/ts/serialization_csv.c
+
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
 CPPSRC = $(ALLCPPSRC)
@@ -144,6 +150,8 @@ ASMSRC = $(ALLASMSRC)
 ASMXSRC = $(ALLXASMSRC)
 
 INCDIR = $(ALLINC) $(TESTINC) src/
+INCDIR += lib/mcucom
+INCDIR += lib/mcucom/port/ChibiOS
 
 #
 # Project, sources and paths

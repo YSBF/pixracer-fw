@@ -32,11 +32,11 @@ bool mcucom_port_condvar_wait(mcucom_port_cond_t *cond, mcucom_port_mutex_t *mut
     if (timeout_us == MCUCOM_PORT_TIMEOUT_IMMEDIATE) {
         return false;
     }
-    systime_t timeout;
+    sysinterval_t timeout;
     if (timeout_us == MCUCOM_PORT_TIMEOUT_NEVER) {
         timeout = TIME_INFINITE;
     } else {
-        timeout = US2ST(timeout_us);
+        timeout = TIME_US2I(timeout_us);
     }
     msg_t ret = chCondWaitTimeout(cond, timeout);
     if (ret == MSG_TIMEOUT) {

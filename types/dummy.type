@@ -1,0 +1,4 @@
+# dummy type for testing
+dummy:
+    string(80) message
+    int32 count

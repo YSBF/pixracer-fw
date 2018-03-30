@@ -106,6 +106,8 @@ include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
 
+include types/types.mk
+
 # Define linker script file here
 LDSCRIPT= linker/STM32F427xI.ld
 
@@ -120,6 +122,7 @@ CSRC += lib/mcucom/port/ChibiOS/mcucom_port_sync.c
 # CSRC += lib/mcucom/ts/serialization_msgpack.c
 CSRC += lib/mcucom/ts/type_print.c
 CSRC += lib/mcucom/ts/serialization_csv.c
+CSRC += $(TYPECSRC)
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
@@ -150,6 +153,7 @@ ASMSRC = $(ALLASMSRC)
 ASMXSRC = $(ALLXASMSRC)
 
 INCDIR = $(ALLINC) $(TESTINC) src/
+INCDIR += $(TYPEINC)
 INCDIR += lib/mcucom
 INCDIR += lib/mcucom/port/ChibiOS
 
@@ -221,3 +225,5 @@ ULIBS =
 
 RULESPATH = $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC
 include $(RULESPATH)/rules.mk
+
+PRE_MAKE_ALL_RULE_HOOK: $(notdir $(TYPECSRC))

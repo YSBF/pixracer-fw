@@ -3,8 +3,14 @@
 #include <chprintf.h>
 #include <shell.h>
 #include <shell_cmd.h>
+#include <stdlib.h>
+
 #include "usbcfg.h"
 #include "thread_prio.h"
+#include "msgbus/msgbus.h"
+#include "ts/type_print.h"
+
+msgbus_t bus;
 
 static THD_WORKING_AREA(led_thread, 128);
 static THD_FUNCTION(led_main, arg)
@@ -47,7 +53,48 @@ static void cmd_threads(BaseSequentialStream *chp, int argc, char *argv[])
     chprintf(chp, "[sytick %d @ %d Hz]\n", chVTGetSystemTime(), CH_CFG_ST_FREQUENCY);
 }
 
+static void cmd_topic_print(BaseSequentialStream *stream, int argc, char *argv[]) {
+    if (argc != 1) {
+        chprintf(stream, "usage: topic_print name\n");
+        return;
+    }
+    msgbus_subscriber_t sub;
+    if (msgbus_topic_subscribe(&sub, &bus, argv[0], MSGBUS_TIMEOUT_IMMEDIATE)) {
+        if (msgbus_subscriber_topic_is_valid(&sub)) {
+            msgbus_topic_t *topic = msgbus_subscriber_get_topic(&sub);
+            const ts_type_definition_t *type = msgbus_topic_get_type(topic);
+            void *buf = malloc(type->struct_size);
+            if (buf == NULL) {
+                chprintf(stream, "malloc failed\n");
+                return;
+            }
+            msgbus_subscriber_read(&sub, buf);
+            ts_print_type((void (*)(void *, const char *, ...))chprintf,
+                              stream, type, buf);
+            free(buf);
+        } else {
+            chprintf(stream, "topic not published yet\n");
+            return;
+        }
+    } else {
+        chprintf(stream, "topic doesn't exist\n");
+        return;
+    }
+}
+
+static void cmd_topic_list(BaseSequentialStream *stream, int argc, char *argv[]) {
+    (void)argc;
+    (void)argv;
+    msgbus_topic_t *topic = msgbus_iterate_topics(&bus);
+    while (topic != NULL) {
+        chprintf(stream, "%s\n", msgbus_topic_get_name(topic));
+        topic = msgbus_iterate_topics_next(topic);
+    }
+}
+
 const ShellCommand commands[] = {
+    {"topic_print", cmd_topic_print},
+    {"topics", cmd_topic_list},
     {"threads", cmd_threads},
     {NULL, NULL}
 };
@@ -99,6 +146,7 @@ int main(void)
     chThdCreateStatic(led_thread, sizeof(led_thread),
                       THD_PRIO_LED, led_main, NULL);
 
+    msgbus_init(&bus);
 
     SerialConfig uart_config = {
         SERIAL_DEFAULT_BITRATE, 0,

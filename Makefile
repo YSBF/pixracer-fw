@@ -115,7 +115,8 @@ LDSCRIPT= linker/STM32F427xI.ld
 # setting.
 CSRC = $(ALLCSRC) \
        $(TESTSRC) \
-       src/usbcfg.c src/board.c src/main.c
+       $(CHIBIOS)/os/various/syscalls.c \
+       src/usbcfg.c src/board.c src/main.c src/malloc_lock.c
 
 CSRC += lib/mcucom/msgbus/msgbus.c
 CSRC += lib/mcucom/port/ChibiOS/mcucom_port_sync.c

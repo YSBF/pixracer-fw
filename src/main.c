@@ -7,6 +7,7 @@
 #include "thread_prio.h"
 #include "types/dummy.h"
 #include "commands.h"
+#include "led.h"
 #include "main.h"
 
 msgbus_t bus;
@@ -31,8 +32,7 @@ int main(void)
     halInit();
     chSysInit();
 
-    chThdCreateStatic(led_thread, sizeof(led_thread),
-                      THD_PRIO_LED, led_main, NULL);
+    led_init();
 
     msgbus_init(&bus);
 

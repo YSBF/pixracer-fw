@@ -120,8 +120,9 @@ CSRC = $(ALLCSRC) \
        $(TESTSRC) \
        $(CHIBIOS)/os/various/syscalls.c \
        src/usbcfg.c src/board.c src/main.c src/malloc_lock.c \
-       src/commands.c src/led.c
+       src/commands.c src/led.c src/log.c
 
+CSRC += lib/error/error.c
 CSRC += lib/mcucom/msgbus/msgbus.c
 CSRC += lib/mcucom/port/ChibiOS/mcucom_port_sync.c
 # CSRC += lib/mcucom/ts/serialization_msgpack.c
@@ -159,6 +160,7 @@ ASMXSRC = $(ALLXASMSRC)
 
 INCDIR = $(ALLINC) $(TESTINC) src/
 INCDIR += $(TYPEINC)
+INCDIR += lib/
 INCDIR += lib/mcucom
 INCDIR += lib/mcucom/port/ChibiOS
 

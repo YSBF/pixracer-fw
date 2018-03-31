@@ -3,16 +3,15 @@
 #include <chprintf.h>
 #include <shell.h>
 
+#include <error/error.h>
 #include "usbcfg.h"
 #include "thread_prio.h"
 #include "commands.h"
 #include "led.h"
+#include "log.h"
 #include "main.h"
 
 msgbus_t bus;
-
-#define TELEM1 (BaseSequentialStream *)&SD2
-#define DEBUG_UART (BaseSequentialStream *)&SD7
 
 void io_setup(void)
 {
@@ -22,11 +21,11 @@ void io_setup(void)
     };
 
     uart_config.speed = 57600;
-    sdStart(DEBUG_UART, &uart_config);
+    sdStart(&SD7, &uart_config);
 
     // Telemetry 1 serial port
     uart_config.speed = 57600;
-    sdStart(TELEM1, &uart_config);
+    sdStart(&SD2, &uart_config);
 }
 
 void usb_start(void)
@@ -50,13 +49,16 @@ int main(void)
     led_init();
 
     io_setup();
-    chprintf(DEBUG_UART, "\nboot\n");
+    NOTICE("boot");
+
+    log_init();
 
     msgbus_init(&bus);
 
     usb_start();
 
     while (true) {
+        NOTICE("hello world");
         shell_spawn((BaseSequentialStream *)&SDU1);
         chThdSleepMilliseconds(1000);
     }

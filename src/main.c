@@ -5,51 +5,32 @@
 
 #include "usbcfg.h"
 #include "thread_prio.h"
-#include "types/dummy.h"
 #include "commands.h"
 #include "led.h"
 #include "main.h"
 
 msgbus_t bus;
 
-static THD_WORKING_AREA(led_thread, 128);
-static THD_FUNCTION(led_main, arg)
-{
-    (void)arg;
-    chRegSetThreadName("heartbeat");
-    while (true) {
-        palClearPad(GPIOB, GPIOB_FMU_LED_GREEN);
-        chThdSleepMilliseconds(500);
-        palSetPad(GPIOB, GPIOB_FMU_LED_GREEN);
-        chThdSleepMilliseconds(500);
-    }
-}
-
 #define TELEM1 (BaseSequentialStream *)&SD2
+#define DEBUG_UART (BaseSequentialStream *)&SD7
 
-int main(void)
+void io_setup(void)
 {
-    halInit();
-    chSysInit();
-
-    led_init();
-
-    msgbus_init(&bus);
-
-    SerialConfig uart_config = {
+    static SerialConfig uart_config = {
         SERIAL_DEFAULT_BITRATE, 0,
         USART_CR2_STOP1_BITS, 0
     };
+
     uart_config.speed = 57600;
-    sdStart(&SD7, &uart_config);
-    chprintf((BaseSequentialStream *)&SD7, "\nboot\n");
+    sdStart(DEBUG_UART, &uart_config);
 
     // Telemetry 1 serial port
-    sdStart(&SD2, &uart_config);
+    uart_config.speed = 57600;
+    sdStart(TELEM1, &uart_config);
+}
 
-    // Shell manager initialization.
-    shellInit();
-
+void usb_start(void)
+{
     // Initializes a serial-over-USB CDC driver.
     sduObjectInit(&SDU1);
     sduStart(&SDU1, &serusbcfg);
@@ -58,18 +39,24 @@ int main(void)
     chThdSleepMilliseconds(1000);
     usbStart(serusbcfg.usbp, &usbcfg);
     usbConnectBus(serusbcfg.usbp);
+}
 
-    msgbus_topic_t dummy_topic;
-    dummy_t dummy_topic_buf;
-    msgbus_topic_create(&dummy_topic, &bus, &dummy_type, &dummy_topic_buf, "/dummy");
+int main(void)
+{
+    halInit();
+    chSysInit();
+    shellInit();
 
-    dummy_t dummy = {"hello world", 0};
+    led_init();
+
+    io_setup();
+    chprintf(DEBUG_UART, "\nboot\n");
+
+    msgbus_init(&bus);
+
+    usb_start();
+
     while (true) {
-        msgbus_topic_publish(&dummy_topic, &dummy);
-        dummy.count += 1;
-
-        chprintf(TELEM1, "hello world\n");
-        chprintf((BaseSequentialStream *)&SD7, "hello world\n");
         shell_spawn((BaseSequentialStream *)&SDU1);
         chThdSleepMilliseconds(1000);
     }

@@ -120,7 +120,7 @@ CSRC = $(ALLCSRC) \
        $(TESTSRC) \
        $(CHIBIOS)/os/various/syscalls.c \
        src/usbcfg.c src/board.c src/main.c src/malloc_lock.c \
-       src/commands.c src/led.c src/log.c src/mpu9250.c
+       src/commands.c src/led.c src/log.c src/mpu9250.c src/imu.c
 
 CSRC += lib/error/error.c
 CSRC += lib/mcucom/msgbus/msgbus.c

@@ -8,6 +8,7 @@
 #include "thread_prio.h"
 #include "commands.h"
 #include "led.h"
+#include "imu.h"
 #include "log.h"
 #include "main.h"
 
@@ -49,11 +50,13 @@ int main(void)
     led_init();
 
     io_setup();
-    NOTICE("boot");
 
     log_init();
+    NOTICE("boot");
 
     msgbus_init(&bus);
+
+    imu_start();
 
     usb_start();
 

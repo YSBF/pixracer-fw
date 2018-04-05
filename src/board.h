@@ -378,7 +378,7 @@
  */
 #define VAL_GPIOC_MODER             (PIN_MODE_INPUT(GPIOC_VBUS_VALID) | \
                                      PIN_MODE_INPUT(GPIOC_RSSI_IN) | \
-                                     PIN_MODE_INPUT(GPIOC_MPU9250_CS) | \
+                                     PIN_MODE_OUTPUT(GPIOC_MPU9250_CS) | \
                                      PIN_MODE_OUTPUT(GPIOC_LED_SAFETY) | \
                                      PIN_MODE_INPUT(GPIOC_SAFETY_SWITCH_IN) | \
                                      PIN_MODE_OUTPUT(GPIOC_VDD_3V3_PERIPH_EN) | \
@@ -391,7 +391,7 @@
                                      PIN_MODE_INPUT(GPIOC_SDIO_CK) | \
                                      PIN_MODE_INPUT(GPIOC_SBUS_INV) | \
                                      PIN_MODE_INPUT(GPIOC_20608_DRDY) | \
-                                     PIN_MODE_INPUT(GPIOC_20608_CS))
+                                     PIN_MODE_OUTPUT(GPIOC_20608_CS))
 #define VAL_GPIOC_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOC_VBUS_VALID) | \
                                      PIN_OTYPE_PUSHPULL(GPIOC_RSSI_IN) | \
                                      PIN_OTYPE_PUSHPULL(GPIOC_MPU9250_CS) | \
@@ -426,7 +426,7 @@
                                      PIN_OSPEED_HIGH(GPIOC_20608_CS))
 #define VAL_GPIOC_PUPDR             (PIN_PUPDR_PULLDOWN(GPIOC_VBUS_VALID) | \
                                      PIN_PUPDR_PULLDOWN(GPIOC_RSSI_IN) | \
-                                     PIN_PUPDR_PULLDOWN(GPIOC_MPU9250_CS) | \
+                                     PIN_PUPDR_FLOATING(GPIOC_MPU9250_CS) | \
                                      PIN_PUPDR_FLOATING(GPIOC_LED_SAFETY) | \
                                      PIN_PUPDR_PULLUP(GPIOC_SAFETY_SWITCH_IN) | \
                                      PIN_PUPDR_FLOATING(GPIOC_VDD_3V3_PERIPH_EN) | \
@@ -439,10 +439,10 @@
                                      PIN_PUPDR_PULLDOWN(GPIOC_SDIO_CK) | \
                                      PIN_PUPDR_PULLDOWN(GPIOC_SBUS_INV) | \
                                      PIN_PUPDR_PULLUP(GPIOC_20608_DRDY) | \
-                                     PIN_PUPDR_PULLDOWN(GPIOC_20608_CS))
+                                     PIN_PUPDR_FLOATING(GPIOC_20608_CS))
 #define VAL_GPIOC_ODR               (PIN_ODR_LOW(GPIOC_VBUS_VALID) | \
                                      PIN_ODR_LOW(GPIOC_RSSI_IN) | \
-                                     PIN_ODR_LOW(GPIOC_MPU9250_CS) | \
+                                     PIN_ODR_HIGH(GPIOC_MPU9250_CS) | \
                                      PIN_ODR_LOW(GPIOC_LED_SAFETY) | \
                                      PIN_ODR_LOW(GPIOC_SAFETY_SWITCH_IN) | \
                                      PIN_ODR_LOW(GPIOC_VDD_3V3_PERIPH_EN) | \
@@ -455,7 +455,7 @@
                                      PIN_ODR_LOW(GPIOC_SDIO_CK) | \
                                      PIN_ODR_LOW(GPIOC_SBUS_INV) | \
                                      PIN_ODR_LOW(GPIOC_20608_DRDY) | \
-                                     PIN_ODR_LOW(GPIOC_20608_CS))
+                                     PIN_ODR_HIGH(GPIOC_20608_CS))
 #define VAL_GPIOC_AFRL              (PIN_AFIO_AF(GPIOC_VBUS_VALID, 0U) | \
                                      PIN_AFIO_AF(GPIOC_RSSI_IN, 0U) | \
                                      PIN_AFIO_AF(GPIOC_MPU9250_CS, 0U) | \
@@ -483,10 +483,10 @@
                                      PIN_MODE_INPUT(GPIOD_FMU_USART2_RTS) | \
                                      PIN_MODE_ALTERNATE(GPIOD_FMU_USART2_TX) | \
                                      PIN_MODE_ALTERNATE(GPIOD_FMU_USART2_RX) | \
-                                     PIN_MODE_INPUT(GPIOD_BARO_CS) | \
+                                     PIN_MODE_OUTPUT(GPIOD_BARO_CS) | \
                                      PIN_MODE_INPUT(GPIOD_FMU_USART3_TX) | \
                                      PIN_MODE_INPUT(GPIOD_FMU_USART3_RX) | \
-                                     PIN_MODE_INPUT(GPIOD_FRAM_CS) | \
+                                     PIN_MODE_OUTPUT(GPIOD_FRAM_CS) | \
                                      PIN_MODE_INPUT(GPIOD_FMU_USART3_CTS) | \
                                      PIN_MODE_INPUT(GPIOD_FMU_USART3_RTS) | \
                                      PIN_MODE_INPUT(GPIOD_FMU_CH5) | \
@@ -531,10 +531,10 @@
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_USART2_RTS) | \
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_USART2_TX) | \
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_USART2_RX) | \
-                                     PIN_PUPDR_PULLDOWN(GPIOD_BARO_CS) | \
+                                     PIN_PUPDR_FLOATING(GPIOD_BARO_CS) | \
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_USART3_TX) | \
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_USART3_RX) | \
-                                     PIN_PUPDR_PULLDOWN(GPIOD_FRAM_CS) | \
+                                     PIN_PUPDR_FLOATING(GPIOD_FRAM_CS) | \
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_USART3_CTS) | \
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_USART3_RTS) | \
                                      PIN_PUPDR_PULLDOWN(GPIOD_FMU_CH5) | \
@@ -547,10 +547,10 @@
                                      PIN_ODR_LOW(GPIOD_FMU_USART2_RTS) | \
                                      PIN_ODR_LOW(GPIOD_FMU_USART2_TX) | \
                                      PIN_ODR_LOW(GPIOD_FMU_USART2_RX) | \
-                                     PIN_ODR_LOW(GPIOD_BARO_CS) | \
+                                     PIN_ODR_HIGH(GPIOD_BARO_CS) | \
                                      PIN_ODR_LOW(GPIOD_FMU_USART3_TX) | \
                                      PIN_ODR_LOW(GPIOD_FMU_USART3_RX) | \
-                                     PIN_ODR_LOW(GPIOD_FRAM_CS) | \
+                                     PIN_ODR_HIGH(GPIOD_FRAM_CS) | \
                                      PIN_ODR_LOW(GPIOD_FMU_USART3_CTS) | \
                                      PIN_ODR_LOW(GPIOD_FMU_USART3_RTS) | \
                                      PIN_ODR_LOW(GPIOD_FMU_CH5) | \

@@ -604,6 +604,7 @@
 /*===========================================================================*/
 
 #define SHELL_CONFIG_FILE
+#define CHPRINTF_USE_FLOAT TRUE
 
 #endif  /* CHCONF_H */
 

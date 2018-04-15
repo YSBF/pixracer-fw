@@ -54,9 +54,11 @@ int main(void)
     log_init();
     NOTICE("boot");
 
-    msgbus_init(&bus);
+    telemetry_start();
 
-    imu_start();
+    // msgbus_init(&bus);
+
+    // imu_start();
 
     usb_start();
 

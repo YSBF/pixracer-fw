@@ -122,12 +122,15 @@ CSRC = $(ALLCSRC) \
        src/usbcfg.c src/board.c src/main.c src/malloc_lock.c \
        src/commands.c src/led.c src/log.c src/mpu9250.c src/imu.c
 
+CSRC += src/telemetry.c
 CSRC += lib/error/error.c
 CSRC += lib/mcucom/msgbus/msgbus.c
 CSRC += lib/mcucom/port/ChibiOS/mcucom_port_sync.c
 # CSRC += lib/mcucom/ts/serialization_msgpack.c
 CSRC += lib/mcucom/ts/type_print.c
 CSRC += lib/mcucom/ts/serialization_csv.c
+CSRC += lib/serial-datagram/serial_datagram.c
+CSRC += lib/crc/crc32.c
 CSRC += $(TYPECSRC)
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global

@@ -1,0 +1,4 @@
+imu_sample:
+    float32 rate[3] # [rad/s]
+    float32 acceleration[3] # [m/s^2]
+    uint32 timestamp_us # [us]

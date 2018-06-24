@@ -86,6 +86,7 @@ endif
 
 # Define project name here
 PROJECT = ch
+BUILDDIR = build
 
 # Imported source files and paths
 CHIBIOS = lib/ChibiOS
@@ -234,3 +235,7 @@ RULESPATH = $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC
 include $(RULESPATH)/rules.mk
 
 PRE_MAKE_ALL_RULE_HOOK: $(notdir $(TYPECSRC))
+
+.PHONY: flash
+flash: $(BUILDDIR)/$(PROJECT).elf
+	openocd -f openocd.cfg -c "program $(BUILDDIR)/$(PROJECT).elf verify reset" -c "shutdown"

@@ -7,7 +7,7 @@ TYPEFILES = $(wildcard $(TYPE_DIR)/*.type)
 TYPECSRC = $(addprefix $(TYPE_OUT_DIR)/,$(notdir $(TYPEFILES:.type=.c)))
 TYPEINC = $(BUILDDIR)
 
-%.c %.h : %.type $(GLOBAL_SRC_DEP)
+%.c %.h : $(TYPE_DIR)/%.type $(GLOBAL_SRC_DEP)
 	@mkdir -p $(TYPE_OUT_DIR)
 	@echo "Compiling type headers for $<"
 	$(TYPEC) $< -o $(TYPE_OUT_DIR)/$@

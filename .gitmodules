@@ -1,3 +1,9 @@
 [submodule "lib/ChibiOS"]
 	path = lib/ChibiOS
 	url = https://github.com/ChibiOS/ChibiOS.git
+[submodule "lib/serial-datagram"]
+	path = lib/serial-datagram
+	url = https://github.com/cvra/serial-datagram.git
+[submodule "lib/crc"]
+	path = lib/crc
+	url = https://github.com/cvra/CRC.git

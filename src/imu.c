@@ -57,6 +57,8 @@ static THD_FUNCTION(imu_thread_main, arg)
 
     mpu9250_reset(&imu);
 
+    chThdSleepMilliseconds(100);
+
     if (!mpu9250_ping(&imu)) {
         ERROR("IMU ping");
     }

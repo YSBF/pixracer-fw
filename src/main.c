@@ -56,9 +56,9 @@ int main(void)
 
     telemetry_start();
 
-    // msgbus_init(&bus);
+    msgbus_init(&bus);
 
-    // imu_start();
+    imu_start();
 
     usb_start();
 
